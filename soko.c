@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "soko.h"
 
+/// valeur absolue en version "rapide"
 #define vabs(a) ((a<0)?-a:a)
 
 Tpos get_hero_pos(Tlevel lvl) {
