@@ -2,7 +2,7 @@
 #define LEVELS_H_
 #include "soko.h"
 
-Tlevel levels[13];
+Tlevel levels[];
 Tlevel back[2];
 
 #endif
