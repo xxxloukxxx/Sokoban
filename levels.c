@@ -1,7 +1,7 @@
 #include "levels.h"
 #include "soko.h"
 /// prout
-Tlevel levels[] = {
+Tlevel levels[200] = {
 	{
 		3, 7,
 		"#######"
