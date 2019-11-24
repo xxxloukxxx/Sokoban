@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
@@ -12,6 +13,9 @@
 #include "soko.h"
 #include "gui.h"
 #include "gui_draw.h"
+
+double f_creneau(double x);
+double f_rebond(int t, int period);
 
 //////////////////////////////////////////////////////////////////////////
 // affiche une "string"
@@ -236,4 +240,26 @@ void draw_menu(int choix) {
 
 	draw_sprite(renderer, spr_decor, 4, xd[choix] - 1.5 * spr_decor.spr_w, yd - 2);
 	draw_sprite(renderer, spr_decor, 4, SCREEN_WIDTH - xd[choix] + 0.5 * spr_decor.spr_w, yd - 2);
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+// Draw_title : le titre qui rebondi
+//////////////////////////////////////////////////////////////////////////
+void draw_title() {
+	int width, height;
+	SDL_Rect dst;
+	SDL_QueryTexture(logo, NULL, NULL, &width, &height);
+	double zoom = 1.0 + f_rebond(SDL_GetTicks(), 500) / 8.0;
+	double angle = 10 * f_rebond(SDL_GetTicks(), 2500) - 5;
+	dst.w = width * zoom;
+	dst.h = height * zoom;
+	dst.x = ( SCREEN_WIDTH - dst.w ) / 2;
+	dst.y = (500 - dst.h) / 2;
+	SDL_RenderCopyEx(renderer, logo, NULL, &dst, angle, NULL, SDL_FLIP_NONE);
+}
+
+double f_rebond(int t, int period) {
+	t = t % period;
+	return fabs( sin(t * 3.14 / period) );
 }

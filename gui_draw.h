@@ -22,6 +22,8 @@ void draw_playground();
 void draw_ttf_string(SDL_Renderer *r,TTF_Font *f, char* str,int x, int y);
 void draw_ui_rect(int x, int y, int w, int h);
 void draw_background(int n);
+void draw_menu(int choix);
+void draw_title();
 
 double f_creneau(double x);
 

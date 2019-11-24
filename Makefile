@@ -3,7 +3,7 @@ CC=gcc
 CFLAGS=-W -Wall -Wextra -Wpedantic -O3 -L.\SDL2\lib -I.\SDL2\include
 #CFLAGS=-w -O3 -L.\SDL2\lib -I.\SDL2\include
 # -mwindows pour sans console
-LDFLAGS=-L.\SDL2\lib -I.\SDL2\include -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
+LDFLAGS=-L.\SDL2\lib -I.\SDL2\include -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -mwindows
 EXEC=main
 SRC= $(wildcard *.c)
 OBJ= $(SRC:.c=.o)

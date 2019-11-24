@@ -24,17 +24,23 @@ char direction = 'd';
 int lvl_running = 1;
 Tlevel lvl, backup, undo;
 TTF_Font *font;
+SDL_Texture *logo;
 
 // Gestions des événements
 int play_event_handler();
-void draw_menu(int choix);
 
 //////////////////////////////////////////////////////////////////////////
 // Initialise les sprites, fonts et compagnie !
 //////////////////////////////////////////////////////////////////////////
 void init_gui() {
+	SDL_Surface *surface_logo;
 	spr_decor = load_sprites(renderer, "gfx\\sprites40x40.png", 40, 40);
 	spr_ui = load_sprites(renderer, "gfx\\ui.png", 50, 50);
+	
+	surface_logo = IMG_Load("gfx\\logo.png");
+	logo = SDL_CreateTextureFromSurface(renderer, surface_logo);
+	SDL_FreeSurface(surface_logo);
+
 	font = TTF_OpenFont("gfx\\upheavtt.ttf", 30);
 }
 
@@ -209,11 +215,16 @@ int menu() {
 
 		}
 		draw_background(0);
+		draw_title();
 		draw_menu(choix);
 		SDL_RenderPresent(renderer);
 		SDL_Delay(DELAY);
 	}
-	game_status=(choix == 2)?GS_EXIT:GS_PLAY;
+
+	if (game_status != GS_EXIT) {
+		game_status = (choix == 2) ? GS_EXIT : GS_PLAY;
+	}
+
 	return game_status;
 }
 

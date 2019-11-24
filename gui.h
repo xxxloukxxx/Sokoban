@@ -17,6 +17,7 @@ SprBank	spr_decor,spr_ui;
 char direction;
 Tlevel lvl;
 TTF_Font *font;
+SDL_Texture *logo;
 
 void init_gui();
 int play();
