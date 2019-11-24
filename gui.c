@@ -27,13 +27,13 @@ TTF_Font *font;
 
 // Gestions des événements
 int play_event_handler();
+void draw_menu(int choix);
 
 //////////////////////////////////////////////////////////////////////////
 // Initialise les sprites, fonts et compagnie !
 //////////////////////////////////////////////////////////////////////////
 void init_gui() {
 	spr_decor = load_sprites(renderer, "gfx\\sprites40x40.png", 40, 40);
-	// spr_fonts_hud = load_sprites(renderer, "gfx\\fonts_hud2.png", 20, 20);
 	spr_ui = load_sprites(renderer, "gfx\\ui.png", 50, 50);
 	font = TTF_OpenFont("gfx\\upheavtt.ttf", 30);
 }
@@ -57,7 +57,6 @@ int play() {
 		SDL_RenderPresent(renderer);
 		SDL_Delay(DELAY);
 	}
-
 	// Sortie de la fonction
 	switch (game_status) {
 	case GS_MENU : // retour menu .. voir fondu en noir
@@ -74,14 +73,13 @@ int play() {
 		SDL_Delay(100);
 		break;
 	}
-
 	// Libération
 	free(lvl.t);
 	lvl.t = NULL;
 	free(backup.t);
-	lvl.t = NULL;
+	backup.t = NULL;
 	free(undo.t);
-	lvl.t = NULL;
+	undo.t = NULL;
 	return game_status;
 }
 
@@ -167,11 +165,8 @@ int play_event_handler() {
 int menu() {
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 	SDL_Event event;
-
-	// int c = 0;
-	char buffer[50];
-
 	int menu_running = 1;
+	int choix = 0 ;
 	while (menu_running) {
 
 		while (SDL_PollEvent(&event)) {
@@ -182,6 +177,28 @@ int menu() {
 				break;
 			case SDL_KEYDOWN:
 				// Gestion des touches deplacer dans le menu
+				if (event.key.keysym.sym == SDLK_DOWN) {
+					if (choix < 2) choix++;
+				}
+
+				if (event.key.keysym.sym == SDLK_UP) {
+					if (choix > 0) choix--;
+				}
+
+				if (event.key.keysym.sym == SDLK_LEFT) {
+					if (choix == 1 && current_lvl > 0) {
+						current_lvl--;
+					}
+					if (current_lvl < 0) current_lvl = 0;
+				}
+
+				if (event.key.keysym.sym == SDLK_RIGHT) {
+					if (choix == 1 && current_lvl < lvl_max - 1) {
+						current_lvl++;
+					}
+					if (current_lvl > lvl_max - 1) current_lvl = lvl_max - 1;
+				}
+
 				if (state[SDL_SCANCODE_RETURN]) {
 					menu_running = 0;
 					game_status = GS_PLAY;
@@ -191,33 +208,13 @@ int menu() {
 			}
 
 		}
-
 		draw_background(0);
-		//draw_menu(int c);
-		int xd = 0, w, h;
-
-		sprintf(buffer, "Start");
-		TTF_SizeText(font, buffer,  &w, &h);
-		xd = (SCREEN_WIDTH - w)/2;
-		draw_ttf_string(renderer, font, buffer, xd, 500);
-
-		sprintf(buffer, "Level Select : %i", current_lvl);
-		TTF_SizeText(font, buffer,  &w, &h);
-		xd = (SCREEN_WIDTH - w)/2;
-		draw_ttf_string(renderer, font, buffer, xd, 550);
-
-		sprintf(buffer, "Quit");
-		TTF_SizeText(font, buffer,  &w, &h);
-		xd = (SCREEN_WIDTH - w)/2;
-		draw_ttf_string(renderer, font, buffer, xd, 600);
-
-		/////////////////////////
+		draw_menu(choix);
 		SDL_RenderPresent(renderer);
 		SDL_Delay(DELAY);
 	}
+	game_status=(choix == 2)?GS_EXIT:GS_PLAY;
 	return game_status;
 }
 
-//////////////////////////////////////////////////////////////////////////
-// la petite fonction qui va bien pour déssiner le menu
-//////////////////////////////////////////////////////////////////////////
+

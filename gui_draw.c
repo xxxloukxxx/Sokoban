@@ -208,3 +208,32 @@ void draw_background(int n) {
 	}
 
 }
+
+//////////////////////////////////////////////////////////////////////////
+// Pour le menu
+//////////////////////////////////////////////////////////////////////////
+void draw_menu(int choix) {
+	// int c = 0;
+	char buffer[50];
+	//draw_menu(int c);
+	int xd[3], w, h;
+	int yd = (choix == 0) ? 500 : ((choix == 1) ? 550 : 600);
+
+	sprintf(buffer, "Start");
+	TTF_SizeText(font, buffer,  &w, &h);
+	xd[0] = (SCREEN_WIDTH - w) / 2;
+	draw_ttf_string(renderer, font, buffer, xd[0], 500);
+
+	sprintf(buffer, "Level Select : %i", current_lvl);
+	TTF_SizeText(font, buffer,  &w, &h);
+	xd[1] = (SCREEN_WIDTH - w) / 2;
+	draw_ttf_string(renderer, font, buffer, xd[1], 550);
+
+	sprintf(buffer, "Quit");
+	TTF_SizeText(font, buffer,  &w, &h);
+	xd[2] = (SCREEN_WIDTH - w) / 2;
+	draw_ttf_string(renderer, font, buffer, xd[2], 600);
+
+	draw_sprite(renderer, spr_decor, 4, xd[choix] - 1.5 * spr_decor.spr_w, yd - 2);
+	draw_sprite(renderer, spr_decor, 4, SCREEN_WIDTH - xd[choix] + 0.5 * spr_decor.spr_w, yd - 2);
+}
