@@ -45,6 +45,7 @@ int main(int argc, char* args[]) {
 		}
 	}
 	////hello
+	// ALORS GIT HUB ? ouais bof !
 	return quit_SDL2();
 }
 
