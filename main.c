@@ -44,6 +44,7 @@ int main(int argc, char* args[]) {
 			break;
 		}
 	}
+	////hello
 	return quit_SDL2();
 }
 
