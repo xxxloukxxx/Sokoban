@@ -7,6 +7,7 @@
 #include "gui.h"
 #include "init_video.h"
 
+// GO 64bits :)
 
 int main(int argc, char* args[]) {
 	(void)argc;
